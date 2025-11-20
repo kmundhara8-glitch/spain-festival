@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Festivals of Spain – Translate</title>
+<style>
+    :root{
+        --accent: #c4002f;
+        --card-bg: rgba(255,255,255,0.95);
+    }
+    html,body{height:100%; margin:0; font-family:Inter, Arial, sans-serif}
+    body {
+        background: url("spain-map.jpg") no-repeat center center fixed;
+        background-size: cover;
+        color: #333;
+    }
+
+    /* overlay to improve contrast/readability */
+    .overlay{
+        min-height:100vh;
+        width:100%;
+        background: rgba(255,255,255,0.86);
+        display:flex;
+        flex-direction:column;
+    }
+
+    header {
+        background: var(--accent);
+        color: white;
+        padding: 40px 20px;
+        text-align: center;
+        position: relative;
+    }
+    header h1 {
+        margin: 0;
+        font-size: 48px;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+    }
+    header p {
+        font-size: 16px;
+        margin: 8px 0 0 0;
+        opacity: 0.95;
+    }
+    #languageSelect {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: none;
+        font-size: 14px;
+        background: white;
+    }
+
+    /* layout */
+    #main {
+        display:flex;
+        gap:20px;
+        padding: 20px;
+        align-items:flex-start;
+    }
+
+    #timelineBox {
+        width: 260px;
+        background: var(--card-bg);
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        padding: 0;
+        flex-shrink: 0;
+    }
+    .timeline-header {
+        padding: 14px;
+        font-size: 18px;
+        font-weight: 600;
+        background: #ffecec;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+        text-align:center;
+    }
+    .timeline-content { padding: 12px; }
+    .timeline-item {
+        margin-bottom: 10px;
+        padding: 8px;
+        background: #fff7f7;
+        border-radius: 8px;
+        font-size: 14px;
+    }
+
+    #festivalList {
+        flex:1;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
+    }
+
+    .festival {
+        background: var(--card-bg);
+        border-radius: 14px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: transform 0.18s ease, box-shadow 0.18s ease;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+        display:flex;
+        flex-direction:column;
+    }
+    .festival:hover{ transform: translateY(-6px); box-shadow: 0 10px 28px rgba(0,0,0,0.12); }
+    .festival-img { width:100%; height:160px; object-fit:cover; display:block; }
+    .festival h2 { margin:12px; font-size:18px; color:var(--accent); }
+
+    /* details */
+    #festivalDetail {
+        display:none;
+        width:100%;
+        padding: 16px 20px 40px 20px;
+    }
+    .detail-card {
+        max-width: 1000px;
+        margin: 0 auto;
+        background: var(--card-bg);
+        border-radius: 14px;
+        padding: 22px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    .detail-card img { width:100%; height:360px; object-fit:cover; border-radius:10px; margin-bottom:14px; }
+    .detail-card h2 { color:var(--accent); margin-top:0; }
+    .detail-card p { line-height:1.6; margin:10px 0; font-size:16px; color:#222; }
+    .back-btn {
+        background:var(--accent);
+        color:white;
+        border:none;
+        padding:10px 16px;
+        border-radius:8px;
+        margin-bottom:14px;
+        cursor:pointer;
+    }
+
+    /* small screens */
+    @media (max-width:880px){
+        header h1 { font-size:34px; }
+        #main { flex-direction:column; padding:12px; }
+        #timelineBox{ width:100%; }
+    }
+</style>
+</head>
+<body>
+<div class="overlay">
+
+<header>
+    <h1 data-lang="title">Festivals of Spain</h1>
+    <p data-lang="subtitle">Explore Spain’s most iconic celebrations</p>
+
+    <select id="languageSelect" onchange="changeLanguage()">
+        <option value="en">English</option>
+        <option value="es">Español</option>
+        <option value="de">Deutsch</option>
+        <option value="fr">Français</option>
+    </select>
+</header>
+
+<div id="main">
+
+    <!-- TIMELINE -->
+    <aside id="timelineBox">
+        <div class="timeline-header" data-lang="timelineTitle">Festival Timeline</div>
+        <div class="timeline-content">
+            <div class="timeline-item" data-lang="fallasTimeline"><b>March:</b> Las Fallas – March 15–19</div>
+            <div class="timeline-item" data-lang="feriaTimeline"><b>April:</b> Feria de Abril – April 14–21</div>
+            <div class="timeline-item" data-lang="sanIsidroTimeline"><b>May:</b> San Isidro – May 15</div>
+            <div class="timeline-item" data-lang="bullsTimeline"><b>July:</b> Running of the Bulls – July 6–14</div>
+            <div class="timeline-item" data-lang="tomatinaTimeline"><b>August:</b> La Tomatina – Last Wednesday of August</div>
+            <div class="timeline-item" data-lang="merceTimeline"><b>September:</b> La Mercè – Sep 24</div>
+            <div class="timeline-item" data-lang="carnivalTimeline"><b>February:</b> Carnival of Tenerife – Mid February</div>
+            <div class="timeline-item" data-lang="wineTimeline"><b>June:</b> Wine Battle (Haro) – June 29</div>
+        </div>
+    </aside>
+
+    <!-- FESTIVAL GRID -->
+    <section id="festivalList">
+        <div class="festival" onclick="showDetail('fallas')">
+            <img class="festival-img" src="hi.jpeg" alt="Las Fallas">
+            <h2 data-lang="fallasTitle">Las Fallas (Valencia)</h2>
+        </div>
+
+        <div class="festival" onclick="showDetail('tomatina')">
+            <img class="festival-img" src="la-tomatina.jpeg" alt="La Tomatina">
+            <h2 data-lang="tomatinaTitle">La Tomatina (Buñol)</h2>
+        </div>
+
+        <div class="festival" onclick="showDetail('bulls')">
+            <img class="festival-img" src="running.jpeg" alt="Running of the Bulls">
+            <h2 data-lang="bullsTitle">Running of the Bulls (Pamplona)</h2>
+        </div>
+
+        <div class="festival" onclick="showDetail('semana')">
+            <img class="festival-img" src="semana.jpeg" alt="Semana Santa">
+            <h2 data-lang="semanaTitle">Semana Santa (Seville)</h2>
+        </div>
+
+        <div class="festival" onclick="showDetail('feria')">
+            <img class="festival-img" src="feria.jpeg" alt="Feria de Abril">
+            <h2 data-lang="feriaTitle">Feria de Abril (Seville)</h2>
+        </div>
+
+        <div class="festival" onclick="showDetail('merce')">
+            <img class="festival-img" src="lamerce.jpeg" alt="La Mercè">
+            <h2 data-lang="merceTitle">La Mercè (Barcelona)</h2>
+        </div>
+
+        <div class="festival" onclick="showDetail('carnival')">
+            <img class="festival-img" src="carnival.jpeg" alt="Carnival of Tenerife">
+            <h2 data-lang="carnivalTitle">Carnival of Tenerife</h2>
+        </div>
+
+        <div class="festival" onclick="showDetail('wine')">
+            <img class="festival-img" src="wine.jpg" alt="Wine Battle">
+            <h2 data-lang="wineTitle">Wine Battle (Haro)</h2>
+        </div>
+    </section>
+
+</div> <!-- main -->
+
+<!-- DETAIL VIEW -->
+<section id="festivalDetail">
+    <div class="detail-card">
+        <button class="back-btn" onclick="goBack()">← Back</button>
+        <img id="detailImg" src="" alt="festival image">
+        <h2 id="detailTitle"></h2>
+        <!-- DYNAMIC container: paragraphs will be injected here, no fixed empty <p> tags -->
+        <div id="detailContentContainer"></div>
+    </div>
+</section>
+
+</div> <!-- overlay -->
+
+<script>
+/* ---------- TRANSLATIONS ---------- */
+const translations = {
+    en: {
+        title: "Festivals of Spain",
+        subtitle: "Explore Spain’s most iconic celebrations",
+        timelineTitle: "Festival Timeline",
+        fallasTitle: "Las Fallas (Valencia)",
+        fallasTimeline: "March: Las Fallas – 15–19 March",
+        tomatinaTitle: "La Tomatina (Buñol)",
+        tomatinaTimeline: "August: La Tomatina – Last Wednesday of August",
+        bullsTitle: "Running of the Bulls (Pamplona)",
+        bullsTimeline: "July: Running of the Bulls – 6–14 July",
+        semanaTitle: "Semana Santa (Seville)",
+        semanaTimeline: "May: Semana Santa – 1–7 May",
+        feriaTitle: "Feria de Abril (Seville)",
+        feriaTimeline: "April: Feria de Abril – 14–21 April",
+        merceTitle: "La Mercè (Barcelona)",
+        merceTimeline: "September: La Mercè – 24 Sep",
+        carnivalTitle: "Carnival of Tenerife",
+        carnivalTimeline: "February: Carnival of Tenerife – Mid February",
+        wineTitle: "Wine Battle (Haro)",
+        wineTimeline: "June: Wine Battle – 29 June"
+    },
+    es: {
+        title: "Fiestas de España",
+        subtitle: "Explora las celebraciones más icónicas de España",
+        timelineTitle: "Línea del Tiempo",
+        fallasTitle: "Las Fallas (Valencia)",
+        fallasTimeline: "Marzo: Las Fallas – 15–19 de marzo",
+        tomatinaTitle: "La Tomatina (Buñol)",
+        tomatinaTimeline: "Agosto: La Tomatina – Último miércoles de agosto",
+        bullsTitle: "Encierro de San Fermín (Pamplona)",
+        bullsTimeline: "Julio: Encierro de San Fermín – 6–14 de julio",
+        semanaTitle: "Semana Santa (Sevilla)",
+        semanaTimeline: "Mayo: Semana Santa – 1–7 de mayo",
+        feriaTitle: "Feria de Abril (Sevilla)",
+        feriaTimeline: "Abril: Feria de Abril – 14–21 de abril",
+        merceTitle: "La Mercè (Barcelona)",
+        merceTimeline: "Septiembre: La Mercè – 24 de septiembre",
+        carnivalTitle: "Carnaval de Tenerife",
+        carnivalTimeline: "Febrero: Carnaval de Tenerife – Mediados de febrero",
+        wineTitle: "Batalla del Vino (Haro)",
+        wineTimeline: "Junio: Batalla del Vino – 29 de junio"
+    },
+    de: {
+        title: "Feste Spaniens",
+        subtitle: "Entdecke Spaniens bekannteste Feierlichkeiten",
+        timelineTitle: "Festival-Zeitplan",
+        fallasTitle: "Las Fallas (Valencia)",
+        fallasTimeline: "März: Las Fallas – 15.–19. März",
+        tomatinaTitle: "La Tomatina (Buñol)",
+        tomatinaTimeline: "August: La Tomatina – letzter Mittwoch im August",
+        bullsTitle: "Stierlauf (Pamplona)",
+        bullsTimeline: "Juli: Stierlauf – 6.–14. Juli",
+        semanaTitle: "Semana Santa (Sevilla)",
+        semanaTimeline: "Mai: Semana Santa – 1.–7. Mai",
+        feriaTitle: "Feria de Abril (Sevilla)",
+        feriaTimeline: "April: Feria de Abril – 14.–21. April",
+        merceTitle: "La Mercè (Barcelona)",
+        merceTimeline: "September: La Mercè – 24. September",
+        carnivalTitle: "Karneval von Teneriffa",
+        carnivalTimeline: "Februar: Karneval von Teneriffa – Mitte Februar",
+        wineTitle: "Weinschlacht (Haro)",
+        wineTimeline: "Juni: Weinschlacht – 29. Juni"
+    },
+    fr: {
+        title: "Festivals d'Espagne",
+        subtitle: "Découvrez les célébrations les plus emblématiques d'Espagne",
+        timelineTitle: "Calendrier des Festivals",
+        fallasTitle: "Las Fallas (Valence)",
+        fallasTimeline: "Mars: Las Fallas – 15–19 mars",
+        tomatinaTitle: "La Tomatina (Buñol)",
+        tomatinaTimeline: "Août: La Tomatina – Dernier mercredi d'août",
+        bullsTitle: "Course des Taureaux (Pampelune)",
+        bullsTimeline: "Juillet: Course des Taureaux – 6–14 juillet",
+        semanaTitle: "Semana Santa (Séville)",
+        semanaTimeline: "Mai: Semana Santa – 1–7 mai",
+        feriaTitle: "Feria de Abril (Séville)",
+        feriaTimeline: "Avril: Feria de Abril – 14–21 avril",
+        merceTitle: "La Mercè (Barcelone)",
+        merceTimeline: "Septembre: La Mercè – 24 septembre",
+        carnivalTitle: "Carnaval de Tenerife",
+        carnivalTimeline: "Février: Carnaval de Tenerife – Mi-février",
+        wineTitle: "Bataille du Vin (Haro)",
+        wineTimeline: "Juin: Bataille du Vin – 29 juin"
+    }
+};
+
+/* ---------- FESTIVAL DETAILS (EN/ES/DE/FR) ---------- */
+const festivalDetails = {
+    fallas: {
+        img: "hi.jpeg",
+        content: {
+            en: [
+                "Las Fellas is a dynamic Latin urban music duo hailing from Puerto Rico, the foundational home of modern reggaeton. The group consists of the talented artists Yan and Duran, who have rapidly become prominent figures in the contemporary Latin music scene through their skillful fusion of traditional reggaeton rhythms and the darker, melodic styles of Latin trap.",
+                "Their music is defined by its versatility and depth. Las Fellas masterfully navigates themes ranging from passionate romance to ambitious street narratives. This thematic breadth, coupled with their ability to switch between smooth, sung melodies and rapid-fire, confident rapping, gives their sound broad appeal. They avoid being pigeonholed, creating tracks that can simultaneously fill dance floors and serve as reflective listening experiences.",
+                "A major key to their success lies in the powerful synergy between Yan and Duran. Each member possesses a distinctive vocal texture and rhythmic approach, and their collaboration results in an exciting, layered sound that feels fresh and engaging. Their chemistry is apparent in their numerous hits, which often feature professional, polished production—heavy on deep basslines, sharp percussion, and infectious, modern sonic elements."
+            ],
+            es: [
+                "Las Fallas es una celebración tradicional que se celebra en Valencia cada marzo.",
+                "Cuenta con grandes esculturas de cartón-piedra llamadas 'ninots' y arte callejero.",
+                "Incluye desfiles, fuegos artificiales, trajes tradicionales y música.",
+                "El momento culminante es 'La Cremà', cuando se queman muchas esculturas.",
+                "Es conocida por sus muestras artísticas y su ambiente festivo."
+            ],
+            de: [
+                "Las Fallas ist eine traditionelle Feier, die jeden März in Valencia stattfindet.",
+                "Es gibt große Pappmaché-Skulpturen, die 'ninots' genannt werden, und Straßenkunst.",
+                "Das Festival umfasst Umzüge, Feuerwerk, traditionelle Trachten und Musik.",
+                "Der Höhepunkt ist 'La Cremà', bei dem viele Figuren verbrannt werden.",
+                "Es ist berühmt für seine künstlerischen Darstellungen und die Feststimmung."
+            ],
+            fr: [
+                "Las Fallas est une célébration traditionnelle qui a lieu à Valence chaque mars.",
+                "Elle présente de grandes sculptures en papier mâché appelées 'ninots' et de l'art de rue.",
+                "Le festival comprend des défilés, des feux d'artifice, des costumes traditionnels et de la musique.",
+                "Le moment fort est 'La Cremà', lorsque de nombreuses sculptures sont brûlées.",
+                "Il est reconnu pour ses démonstrations artistiques et son ambiance festive."
+            ]
+        }
+    },
+
+    tomatina: {
+        img: "la-tomatina.jpeg",
+        content: {
+            en: [
+                "La Tomatina is one of Spain’s most unique and chaotic festivals, held annually on the last Wednesday of August in the small Valencian town of Buñol. It is famous globally as the world's largest food fight, where thousands of participants from around the world gather to hurl overripe tomatoes at each other purely for fun.",
+                "The festival’s origins are somewhat murky, but the most popular account traces it back to a spontaneous street brawl near a vegetable stall during a local parade in 1945. Locals repeated the tomato throwing the following year, and despite being banned at various times, the tradition persisted and grew into the massive, ticketed event it is today.",
+                "After the hour of mayhem, the streets of Buñol are literally running red with tomato pulp. Fire trucks move in to hose down the town, and the citric acid in the tomatoes leaves the streets surprisingly clean. La Tomatina is celebrated as a chaotic, unforgettable blast of communal joy, attracting visitors and generating significant tourism revenue for the region"
+               
+            ],
+            es: [
+                "La Tomatina tiene lugar en Buñol cada agosto y es una enorme batalla de tomates.",
+                "Los participantes se lanzan miles de tomates maduros por las calles.",
+                "El evento dura aproximadamente una hora, aunque las celebraciones son durante todo el día.",
+                "Comenzó como un acontecimiento espontáneo y se ha hecho famoso internacionalmente.",
+                "Se recomienda llevar ropa vieja y seguir las normas locales de seguridad."
+            ],
+            de: [
+                "Die Tomatina findet jeden August in Buñol statt und ist ein großes Tomatenwerfen.",
+                "Die Teilnehmer werfen tausende reife Tomaten in den Straßen aufeinander.",
+                "Die Veranstaltung dauert etwa eine Stunde, aber gefeiert wird den ganzen Tag.",
+                "Sie begann als spontanes Ereignis und wurde international bekannt.",
+                "Besucher sollten alte Kleidung tragen und die Sicherheitsregeln beachten."
+            ],
+            fr: [
+                "La Tomatina a lieu à Buñol chaque août et est une grande bataille de tomates.",
+                "Les participants se jettent des milliers de tomates mûres dans les rues.",
+                "L'événement dure environ une heure mais la fête dure toute la journée.",
+                "Cela a commencé de façon spontanée et est devenu célèbre dans le monde entier.",
+                "Il est conseillé de porter des vêtements anciens et de respecter les règles de sécurité."
+            ]
+        }
+    },
+
+    bulls: {
+        img: "running.jpeg",
+        content: {
+            en: [
+                "The Running of the Bulls—or El Encierro in Spanish—is a high-profile and highly dangerous tradition that takes place annually as part of the nine-day San Fermín Festival in Pamplona, Spain. Held every year from July 6th to July 14th, the encierro is the cornerstone event, attracting hundreds of thousands of visitors globally.",
+                "The event's origins date back to the early 14th century and stem from the practical need to herd bulls from the fields outside the city to the bullring for the afternoon's bullfight. Over time, young men began running ahead of the bulls as a show of bravado, turning the utilitarian transport into a competitive and risky spectacle.",
+                "The goal for participants, who must be over 18, sober, and wear the traditional white clothes with a red sash and neckerchief, is to run as close as possible to the horns for a short distance before diving to safety. The run is notoriously dangerous; since record-keeping began in 1910, 15 people have been killed, mostly from gorings, and injuries occur every year. It is simultaneously celebrated as a historic tradition and debated for its inherent risks and animal welfare concerns."
+            ],
+            es: [
+                "El encierro se celebra en Pamplona cada julio.",
+                "Los participantes corren delante de toros que avanzan por las calles.",
+                "Forma parte de las fiestas de San Fermín, celebradas durante siglos.",
+                "Hay medidas de seguridad y equipos médicos en todo momento.",
+                "Los espectadores observan desde balcones y barreras especiales."
+            ],
+            de: [
+                "Der Stierlauf findet jeden Juli in Pamplona statt.",
+                "Teilnehmer laufen vor stürmenden Bullen durch die Straßen der Stadt.",
+                "Er ist Teil des San-Fermín-Festivals, das seit Jahrhunderten gefeiert wird.",
+                "Sicherheitsvorkehrungen und medizinische Teams sind vorhanden.",
+                "Zuschauer beobachten von Balkonen und Sperren entlang der Strecke."
+            ],
+            fr: [
+                "La Course des Taureaux a lieu chaque juillet à Pampelune.",
+                "Les participants courent devant des taureaux qui foncent dans les rues.",
+                "Elle fait partie des fêtes de San Fermín, célébrées depuis des siècles.",
+                "Des mesures de sécurité et des équipes médicales sont présentes.",
+                "Les spectateurs regardent depuis les balcons et les barrières."
+            ]
+        }
+    },
+
+    semana: {
+        img: "semana.jpeg",
+        content: {
+            en: [
+                "Semana Santa in Seville is a major religious festival held in spring.",
+                "It features solemn processions, floats and traditional music.",
+                "Local brotherhoods (cofradías) organize the parades and rituals.",
+                "The event draws large crowds and is deeply rooted in Spanish culture."
+            ],
+            es: [
+                "La Semana Santa en Sevilla es un festival religioso importante en primavera.",
+                "Cuenta con procesiones solemnes, pasos y música tradicional.",
+                "Cofradías locales organizan los desfiles y los rituales.",
+                "Atrae a muchas personas y está profundamente arraigada en la cultura española."
+            ],
+            de: [
+                "Die Semana Santa in Sevilla ist ein großes religiöses Fest im Frühling.",
+                "Es gibt feierliche Prozessionen, Trägerplattformen und traditionelle Musik.",
+                "Lokale Bruderschaften (cofradías) organisieren die Paraden und Rituale.",
+                "Das Ereignis zieht viele Besucher an und ist in der spanischen Kultur verankert."
+            ],
+            fr: [
+                "La Semana Santa à Séville est une grande fête religieuse au printemps.",
+                "Elle comprend des processions solennelles, des pasos et de la musique traditionnelle.",
+                "Les confréries locales organisent les défilés et rituels.",
+                "L'événement attire de nombreux visiteurs et est profondément ancré dans la culture espagnole."
+            ]
+        }
+    },
+
+    feria: {
+        img: "feria.jpeg",
+        content: {
+            en: [
+                "Feria de Abril is a colorful fair in Seville filled with dancing and horses.",
+                "People dress up in traditional Andalusian costume and enjoy flamenco.",
+                "The fairground has casetas (tents) serving food, drink and music.",
+                "It is a joyful celebration of local customs and social life."
+            ],
+            es: [
+                "La Feria de Abril es una feria colorida en Sevilla con baile y caballos.",
+                "La gente se viste con trajes andaluces y disfruta del flamenco.",
+                "El recinto ferial tiene casetas que sirven comida, bebida y música.",
+                "Es una celebración alegre de las costumbres locales."
+            ],
+            de: [
+                "Die Feria de Abril ist ein farbenfroher Jahrmarkt in Sevilla mit Tanz und Pferden.",
+                "Die Menschen tragen traditionelle andalusische Trachten und genießen Flamenco.",
+                "Das Messegelände hat Zelte (casetas) mit Essen, Trinken und Musik.",
+                "Es ist eine freudige Feier lokaler Bräuche."
+            ],
+            fr: [
+                "La Feria de Abril est une foire colorée à Séville avec danses et chevaux.",
+                "Les gens portent des costumes andalous et apprécient le flamenco.",
+                "Le site de la foire comprend des casetas (tentes) avec nourriture et musique.",
+                "C'est une fête joyeuse des coutumes locales."
+            ]
+        }
+    },
+
+    merce: {
+        img: "lamerce.jpeg",
+        content: {
+            en: [
+                "La Mercè is Barcelona's main festival featuring parades and fireworks.",
+                "It includes human towers (castells), giants, and lively street performances.",
+                "The festival celebrates Catalan culture and community spirit."
+            ],
+            es: [
+                "La Mercè es la principal fiesta de Barcelona con desfiles y fuegos artificiales.",
+                "Incluye castells (torres humanas), gigantes y espectáculos callejeros.",
+                "La fiesta celebra la cultura catalana y el espíritu comunitario."
+            ],
+            de: [
+                "La Mercè ist Barcelonas wichtigstes Fest mit Paraden und Feuerwerk.",
+                "Es umfasst Menschen-Türme (castells), Riesenfiguren und Straßenaufführungen.",
+                "Das Festival feiert die katalanische Kultur und Gemeinschaft."
+            ],
+            fr: [
+                "La Mercè est la fête principale de Barcelone avec défilés et feux d'artifice.",
+                "Elle comprend des tours humaines (castells), des géants et des spectacles de rue.",
+                "Le festival célèbre la culture catalane et l'esprit communautaire."
+            ]
+        }
+    },
+
+    carnival: {
+        img: "carnival.jpeg",
+        content: {
+            en: [
+                "Carnival of Tenerife is one of Spain's biggest carnivals with parades and costumes.",
+                "It features music, dancing and spectacular floats across the island.",
+                "The event is famous for its colorful, festive atmosphere."
+            ],
+            es: [
+                "El Carnaval de Tenerife es uno de los carnavales más grandes de España.",
+                "Presenta música, baile y carrozas espectaculares en toda la isla.",
+                "Es famoso por su ambiente colorido y festivo."
+            ],
+            de: [
+                "Der Karneval von Teneriffa ist einer der größten Spaniens mit Paraden und Kostümen.",
+                "Es gibt Musik, Tanz und spektakuläre Umzugswagen auf der Insel.",
+                "Das Ereignis ist berühmt für seine bunte, festliche Atmosphäre."
+            ],
+            fr: [
+                "Le Carnaval de Tenerife est l'un des plus grands carnavals d'Espagne.",
+                "Il propose musique, danse et chars spectaculaires à travers l'île.",
+                "L'événement est célèbre pour son ambiance colorée et festive."
+            ]
+        }
+    },
+
+    wine: {
+        img: "wine.jpg",
+        content: {
+            en: [
+                "The Wine Battle in Haro is a playful festival where participants splash red wine.",
+                "It takes place in the Rioja region and celebrates local wine culture.",
+                "Visitors enjoy music, parades and tastings before the wine battle begins."
+            ],
+            es: [
+                "La Batalla del Vino en Haro es una fiesta lúdica donde los participantes se lanzan vino.",
+                "Tiene lugar en la región de La Rioja y celebra la cultura vinícola local.",
+                "Los visitantes disfrutan de música, desfiles y catas antes de la batalla."
+            ],
+            de: [
+                "Die Weinschlacht in Haro ist ein spielerisches Fest, bei dem roter Wein gespritzt wird.",
+                "Sie findet in der Rioja-Region statt und feiert die lokale Weinkultur.",
+                "Besucher genießen Musik, Umzüge und Weinproben vor der Schlacht."
+            ],
+            fr: [
+                "La Bataille du Vin à Haro est une fête ludique où les participants s'arrosent de vin rouge.",
+                "Elle a lieu dans la région de La Rioja et célèbre la culture du vin local.",
+                "Les visiteurs profitent de musique, défilés et dégustations avant la bataille."
+            ]
+        }
+    }
+};
+
+
+/* ---------- STATE ---------- */
+let currentFestival = null;
+
+/* ---------- SHOW DETAIL ---------- */
+function showDetail(key){
+    currentFestival = key;
+    // hide list, show detail
+    document.getElementById('festivalList').style.display = 'none';
+    document.getElementById('festivalDetail').style.display = 'block';
+    updateFestivalDetail();
+}
+
+/* ---------- UPDATE DETAIL (dynamic paragraphs) ---------- */
+function updateFestivalDetail(){
+    if(!currentFestival) return;
+
+    const lang = document.getElementById('languageSelect').value || 'en';
+    const detail = festivalDetails[currentFestival];
+
+    // image & title
+    document.getElementById('detailImg').src = detail.img;
+    const titleKey = currentFestival + "Title";
+    document.getElementById('detailTitle').innerText = (translations[lang] && translations[lang][titleKey]) ? translations[lang][titleKey] : translations['en'][titleKey];
+
+    // dynamic content container
+    const container = document.getElementById('detailContentContainer');
+    container.innerHTML = ""; // clear
+
+    const lines = (detail.content && (detail.content[lang] || detail.content['en'])) || [];
+
+    lines.forEach(text => {
+        const p = document.createElement('p');
+        p.textContent = text;
+        container.appendChild(p);
+    });
+}
+
+/* ---------- GO BACK ---------- */
+function goBack(){
+    document.getElementById('festivalDetail').style.display = 'none';
+    document.getElementById('festivalList').style.display = 'grid';
+    currentFestival = null;
+}
+
+/* ---------- CHANGE LANGUAGE (updates all [data-lang] nodes & detail) ---------- */
+function changeLanguage(){
+    const lang = document.getElementById('languageSelect').value || 'en';
+    document.querySelectorAll('[data-lang]').forEach(el=>{
+        const key = el.getAttribute('data-lang');
+        // if translations[lang][key] exists, use it, otherwise fallback to en
+        if(translations[lang] && translations[lang][key]) el.innerHTML = translations[lang][key];
+        else el.innerHTML = translations['en'][key] || el.innerHTML;
+    });
+
+    // If a festival detail is open, refresh its content in the new language
+    if(currentFestival) updateFestivalDetail();
+}
+
+/* ---------- initialize UI language on load ---------- */
+(function init(){
+    // set initial UI strings from 'en'
+    changeLanguage();
+})();
+</script>
+</body>
+</html>
